@@ -27,7 +27,7 @@ readFile("lastlength", function read(err, data) {
 });
 
 checkGame();
-setInterval(checkGame, 6 * 60 * 60 * 1000); //Runs every six hours
+setInterval(checkGame, 3 * 60 * 60 * 1000); //Runs every three hours
 
 function checkGame() {
 	octokit.gists

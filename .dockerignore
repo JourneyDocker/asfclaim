@@ -1,6 +1,10 @@
+/.git
+/.idea
+/.vscode
 node_modules
 old
-.github
+/.github
 docker-compose.yml
 README.md
 LICENSE
+Dockerfile

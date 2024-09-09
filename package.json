@@ -1,13 +1,13 @@
 {
   "name": "asfclaim",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "Free package claimer for ASF",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Journey Over (Origin: Emrik Oestling)",
   "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^21.0.2",

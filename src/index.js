@@ -59,7 +59,7 @@ setInterval(checkGame, Number(args.interval) * 60 * 60 * 1000); // Runs every %a
 
 async function checkGame() {
   await consoleAndWebhookAsync("info", "Checking for new packages...");
-  await octokit.gists.get({ gist_id: "e8c5cf365d816f2640242bf01d8d3675" }).then(async gist => {
+  await octokit.gists.get({ gist_id: "590fefa34af75a961a85ff392ebc0932" }).then(async gist => {
     let codes = gist.data.files['Steam Codes'].content.split("\n");
 
     var lastCodesIndex = codes.length;

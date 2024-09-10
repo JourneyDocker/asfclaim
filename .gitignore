@@ -1,4 +1,4 @@
 node_modules
-/lastlength
+storage
 .env
 /pnpm-lock.yaml

@@ -224,6 +224,35 @@ async function sendHookAsync(type, msg, pack, asfResultObj) {
     }
   }
 
+  // Determine custom title based on the claim status
+  let customTitle = msg;
+  if (asfResultObj) {
+    for (const [user, result] of Object.entries(asfResultObj)) {
+      switch (result.status) {
+        case 'OK':
+          if (result.status.includes("Items:")) {
+            customTitle = `Claimed a new free package!`;
+          } else if (result.status === "OK/NoDetail") {
+            customTitle = `Claimed a new free package!, but no additional details provided.`;
+          } else if (result.status === "OK -> Not available for this account") {
+            customTitle = `Successfully processed but the package is not available for this account`;
+          } else {
+            customTitle = `Claim Status: ${result.status}`;
+          }
+          break;
+        case 'Fail/AlreadyPurchased':
+          customTitle = `Failed to claim: Already purchased.`;
+          break;
+        case 'Fail/InvalidPackage':
+        case 'AccessDenied/InvalidPackage':
+          customTitle = `Failed to claim: Invalid package.`;
+          break;
+        default:
+          customTitle = `Claim Status: ${result.status}`;
+      }
+    }
+  }
+
   for (let i = 0; i <= hookEnabledTypesArr.length; i++) {
     if (hookEnabledTypesArr[i] == type && pack) {
       var appMetas = [];
@@ -242,7 +271,7 @@ async function sendHookAsync(type, msg, pack, asfResultObj) {
           sleep(3);
         }
 
-        // fill metadata
+        // Fill metadata
         var metaData = {
           imageUrl: "https://via.placeholder.com/460x215.jpg?text=Cant+load+image",
           name: "Cant load name",
@@ -273,7 +302,7 @@ async function sendHookAsync(type, msg, pack, asfResultObj) {
           description.id += " (from SubId: [" + metaData.subId + "](https://store.steampowered.com/sub/" + metaData.subId + "))";
         }
 
-        // prepare fields if given
+        // Prepare fields if given
         var fields = [];
         if (asfResultObj) {
           var asfResultAsStatus = {};
@@ -302,7 +331,7 @@ async function sendHookAsync(type, msg, pack, asfResultObj) {
           method: "post",
           body: JSON.stringify({
             embeds: [{
-              title: msg,
+              title: customTitle,
               color: config.color[type],
               image: {
                 url: metaData.imageUrl
@@ -319,12 +348,12 @@ async function sendHookAsync(type, msg, pack, asfResultObj) {
         });
       }
     } else if (hookEnabledTypesArr[i] == type) {
-      // send webhook with normal text
+      // Send webhook with normal text
       await fetch(args.webhookUrl, {
         method: "post",
         body: JSON.stringify({
           embeds: [{
-            title: msg,
+            title: customTitle,
             color: config.color[type]
           }],
           username: config.username,
